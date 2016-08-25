@@ -23,3 +23,8 @@ The local `src/GOPATH` directory is mapped to `/home/vagrant/src/GOPATH` or `~/s
 
 The local `./devtools` directory is mapped to `/vagrant`
 
+### SSH to the Vagrant image
+To logon to the vagrant image simply type
+` vagrant ssh `
+
+

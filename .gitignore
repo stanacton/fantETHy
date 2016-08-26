@@ -44,3 +44,5 @@ build
 
 # Linux back ground file
 nohup.out
+
+src/GOPATH/bin

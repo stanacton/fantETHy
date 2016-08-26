@@ -12,5 +12,8 @@ if grep -q GOPATH ~/.bashrc; then
    echo "GOPATH already exists"
 else 
    echo "adding GOPATH to .bashrc"
-   echo "GOPATH=~/src/GOPATH" >> ~/.bashrc
+   echo "export GOPATH=~/src/GOPATH" >> ~/.bashrc
+   echo "export PATH=$PATH:$GOPATH/bin" >> ~/.bashrc
 fi
+
+go build tbd

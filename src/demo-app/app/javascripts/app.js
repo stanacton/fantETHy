@@ -36,6 +36,26 @@ function sendCoin() {
   });
 };
 
+
+function sendCoin() {
+  var meta = MetaCoin.deployed();
+
+  var amount = parseInt(document.getElementById("add-amount").value);
+  var receiver = document.getElementById("add-receiver").value;
+
+  setStatus("Initiating transaction... (please wait)");
+
+  meta.addCoin(receiver, amount, {from: account}).then(function() {
+    setStatus("Transaction complete!");
+    refreshBalance();
+  }).catch(function(e) {
+    console.log(e);
+    setStatus("Error adding coin; see log.");
+  });
+};
+
+
+
 window.onload = function() {
   web3.eth.getAccounts(function(err, accs) {
     if (err != null) {
@@ -50,6 +70,10 @@ window.onload = function() {
 
     accounts = accs;
     account = accounts[0];
+
+    console.log(JSON.stringify(accounts, null, 4));
+
+    document.getElementById("account-number").innerText = account;
 
     refreshBalance();
   });

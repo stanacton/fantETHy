@@ -26,6 +26,10 @@ contract MetaCoin {
 		return ConvertLib.convert(getBalance(addr),2);
 	}
 
+	function addCoin(address receiver, uint amount) {
+		balances[receiver] += amount;
+	}
+
 	function getBalance(address addr) returns(uint) {
 		return balances[addr];
 	}

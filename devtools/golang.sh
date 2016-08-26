@@ -1,4 +1,5 @@
  #!/usr/bin/env bash
+export GOPATH=/home/vagrant/src/GOPATH
 
 add-apt-repository ppa:ubuntu-lxc/lxd-stable
 apt-get update
@@ -16,4 +17,4 @@ else
    echo "export PATH=$PATH:$GOPATH/bin" >> ~/.bashrc
 fi
 
-go build tbd
+go install tbd

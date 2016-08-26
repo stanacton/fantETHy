@@ -22,3 +22,6 @@ groupadd docker
 gpasswd -a vagrant docker
 service docker restart
 docker pull ethereum/client-go
+docker pull stanacton/ethereum-testrpc
+docker tag stanacton/ethereum-testrpc testrpc
+docker run -d --name testrpc -p 8545:8545 testrpc 

@@ -38,6 +38,17 @@ func main() {
 		os.RemoveAll(buildDirectory)
 	}
 
+	imagesDirectory := path.Join(cwd, "app/images")
+
+	if !pathExists(imagesDirectory) {
+		log.Print("Creating ./app/images directory")
+		dirError := os.Mkdir(imagesDirectory, 0777)
+
+		if dirError != nil {
+			log.Fatal("Could not create images directory.")
+		}
+	}
+
 	migrate := exec.Command("truffle", "migrate")
 	migrate.Stderr = os.Stderr
 	migrate.Stdout = os.Stdout

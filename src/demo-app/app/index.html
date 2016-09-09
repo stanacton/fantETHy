@@ -5,11 +5,13 @@
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
   <link href="./app.css" rel='stylesheet' type='text/css'>
   <script src="./app.js"></script>
+  <script src="./clipboard.min.js"></script>
 </head>
 <body>
-  <h1>MetaCoin <span id="account-number"></span></h1>
+  <h1>MetaCoin</h1>
   <h2>Example Truffle Dapp</h2>
   <h3>You have <span class="black"><span id="balance"></span> META</span></h3>
+  <h4><pre><span id="account-number" class="accno"></span></pre></h4>
 
   <br>
   <h1>Send</h1>
@@ -26,5 +28,72 @@
   <br><br><button id="send" onclick="sendCoin()">Add MetaCoin</button>
   <br><br>
   <span id="status"></span>
+
+
+<script>
+(function(){
+
+	// Get the elements.
+	// - the 'pre' element.
+	var pre = document.getElementsByTagName('pre');
+
+	// Add a copy button in the 'pre' element.
+	// which only has the className of 'language-'.
+	
+	for (var i = 0; i < pre.length; i++) {
+		var isLanguage = pre[i].children[0].className.indexOf('accno');
+
+		if ( isLanguage === 0 ) {
+			var button = document.createElement('button');
+					button.className = 'copy-button';
+					button.alt = 'Copy';
+          
+      var img = document.createElement('img');
+          img.className = 'clippy';
+          img.src = './images/clippy.svg';
+          img.width = 13;
+
+          button.appendChild(img);
+
+					pre[i].appendChild(button);
+		}
+	};
+
+	// Run Clipboard
+	var copyCode = new Clipboard('.copy-button', {
+		target: function(trigger) {
+			return trigger.previousElementSibling;
+    }
+	});
+
+	// On success:
+	// - Change the "Copy" text to "Copied".
+	// - Swap it to "Copy" in 2s.
+	// - Lead user to the "contenteditable" area with Velocity scroll.
+	copyCode.on('success', function(event) {
+		event.clearSelection();
+		event.trigger.alt = 'Copied';
+    event.trigger.disabled = true;
+		window.setTimeout(function() {
+      event.trigger.disabled = false;
+			event.trigger.alt = 'Copy';
+		}, 2000);
+	});
+
+	// On error (Safari):
+	// - Change the  "Press Ctrl+C to copy"
+	// - Swap it to "Copy" in 2s.
+	copyCode.on('error', function(event) { 
+		event.trigger.alt = 'Press "Ctrl + C" to copy';
+    event.trigger.disabled = true;
+		window.setTimeout(function() {
+			event.trigger.alt = 'Copy';
+		}, 5000);
+	});
+
+})();
+</script>
+
+
 </body>
 </html>

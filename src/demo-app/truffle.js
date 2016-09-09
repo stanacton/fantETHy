@@ -7,6 +7,9 @@ module.exports = {
     "app.css": [
       "stylesheets/app.css"
     ],
+    "clipboard.min.js": [
+      "javascripts/clipboard.min.js"
+    ],
     "images/": "images/"
   },
   rpc: {

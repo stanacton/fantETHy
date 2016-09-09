@@ -1,11 +1,16 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
 	"os/exec"
 	"path"
+)
+
+const (
+	templateSrcDir = "../app-bootstrap"
 )
 
 func pathExists(path string) bool {
@@ -14,6 +19,38 @@ func pathExists(path string) bool {
 	}
 
 	return true
+}
+
+func copyTemplateFiles() error {
+	cwd, _ := os.Getwd()
+
+	var files []string
+	files[0] = "Gruntfile.js"
+	files[1] = "package.json"
+	files[2] = ".bowerrc"
+	files[3] = "bower.json"
+	files[3] = ".gitignore"
+
+	for _, value := range files {
+		checkPath := path.Join(cwd, value)
+		sourcePath := path.Join(templateSrcDir, value)
+		err := copyIfMissing(checkPath, sourcePath)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func copyIfMissing(checkPath string, sourceFile string) error {
+	if pathExists(checkPath) {
+		return nil
+	}
+	if !pathExists(sourceFile) {
+		return errors.New("I can't find the source file " + sourceFile)
+	}
+	return CopyFile(sourceFile, checkPath)
 }
 
 func main() {
@@ -30,6 +67,11 @@ func main() {
 	}
 
 	log.Print("Found truffle file.")
+
+	err := copyTemplateFiles()
+	if err != nil {
+		log.Fatalf("Couldn't find template files, %s ", err)
+	}
 
 	buildDirectory := path.Join(cwd, "build")
 

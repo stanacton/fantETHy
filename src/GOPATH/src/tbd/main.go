@@ -24,12 +24,12 @@ func pathExists(path string) bool {
 func copyTemplateFiles() error {
 	cwd, _ := os.Getwd()
 
-	var files []string
+	var files [5]string
 	files[0] = "Gruntfile.js"
 	files[1] = "package.json"
 	files[2] = ".bowerrc"
 	files[3] = "bower.json"
-	files[3] = ".gitignore"
+	files[4] = ".gitignore"
 
 	for _, value := range files {
 		checkPath := path.Join(cwd, value)
@@ -39,6 +39,13 @@ func copyTemplateFiles() error {
 			return err
 		}
 	}
+
+	nodeModulesDir := path.Join(cwd, "node_modules")
+	if pathExists(nodeModulesDir) {
+		return nil
+	}
+	cmd := exec.Command("npm", "install")
+	cmd.Run()
 
 	return nil
 }

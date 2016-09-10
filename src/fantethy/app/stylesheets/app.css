@@ -21,6 +21,13 @@
   font-size: 100%;
   width: 540px;
 }
+#page-game .prize-pool-size {
+  font-size: 200%;
+  font-weight: bold;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
 .key-value .key {
   font-weight: bold;
   padding: 3px;

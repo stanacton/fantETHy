@@ -1,0 +1,42 @@
+<div id="page-game">
+
+    <h2>{{ game.name || "GAME NAME" }} - {{ game.status }}</h2>
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="heading">Players</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Name</th>
+                        </tr>
+                        </thead>
+                        <thead>
+                        <tr ng-repeat="player in game.players | orderBy: 'rank' ">
+                            <td>{{ player.rank }}</td>
+                            <td>{{ player.name }}</td>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="heading">Prize Pool</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="prize-pool-size">{{ game.prizePool }} ETH</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

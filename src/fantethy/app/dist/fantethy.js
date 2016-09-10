@@ -1,4 +1,18 @@
 var app = angular.module("fantethy", ['ngRoute']);
+app.controller("GameCtrl", ["$scope", function ($scope) {
+    $scope.game = {
+        name: "Andy's Premiership",
+        status: "Season in Progress",
+        prizePool: 34,
+        players: [
+            { rank: 1, name: "Andy", address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a"},
+            { rank: 2, name: "Chris", address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a"},
+            { rank: 3, name: "Coleman", address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a"},
+            { rank: 4, name: "Acton", address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a"}
+        ]
+    };
+
+}]);
 app.controller("GameJoinCtrl", ["$scope", function ($scope) {
     $scope.game = {
         name: "Andy's Game #1",
@@ -34,7 +48,7 @@ app.controller("HomeCtrl", ['$scope','AngWeb3', function ($scope, AngWeb3) {
 app.controller("MyGamesCtrl", ["$scope", function ($scope) {
     $scope.games = [
         { rank: 10, buyIn: 33, address: "0x12423596843e32f32af333", type: "WINNER_TAKES_ALL", name: "Andy's Game #1", status: "DRAFT"},
-        { rank: 3, buyIn: 1, address: "0x12423596843e32f32af333", type: "WINNER_TAKES_ALL", name: "The Brain's Game #3", status: "Sesasion In Progress"},
+        { rank: 3, buyIn: 1, address: "0x12423596843e32f32af333", type: "WINNER_TAKES_ALL", name: "The Brain's Game #3", status: "Session In Progress"},
     ];
 
 }]);
@@ -52,9 +66,13 @@ app.config(['$routeProvider', function($routeProvider) {
             templateUrl: 'partials/games-mine.html',
             controller: 'MyGamesCtrl'
         })
-        .when('/games/:id', {
+        .when('/games/join/:id', {
             templateUrl: 'partials/game-join.html',
             controller: 'GameJoinCtrl'
+        })
+        .when('/game/:id', {
+            templateUrl: 'partials/game.html',
+            controller: 'GameCtrl'
         })
         .otherwise({
             redirectTo: '/home'

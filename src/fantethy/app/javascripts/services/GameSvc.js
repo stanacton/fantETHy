@@ -20,7 +20,15 @@ app.factory("GameSvc", ['AngWeb3','WalletBar', function (web3, WalletBar)  {
 
     }
 
+    function createGame(game) {
+        return {
+            status: "success",
+            address: "0x23423423423423423423423423423423423423423423423423"
+        };
+    }
+
     return  {
-        getGame: getGame
+        getGame: getGame,
+        createGame: createGame
     };
 }]);

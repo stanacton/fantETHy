@@ -1,0 +1,50 @@
+<div id="page-game-create">
+
+    <div class="alert alert-danger" ng-show="errors.length > 0">
+        <div ng-repeat="error in errors">{{ error.message }}</div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="heading">Create League</h2>
+        </div>
+        <div class="panel-body">
+            <div class="form-group col-lg-6">
+                <label for="name">Name</label>
+                <input class="form-control" type="text" id="name" ng-model="item.name" placeholder="Name" />
+            </div>
+            <div class="form-group col-lg-3" >
+                <label for="leagueSize">League Size</label>
+                <input class="form-control" type="number" id="leagueSize" ng-model="item.leagueSize" placeholder="League Size"/>
+            </div>
+            <div class="form-group col-lg-3">
+                <label for="buyIn">Buy In</label>
+
+                <div class="input-group">
+                    <input class="form-control" type="number" id="buyIn" ng-model="item.buyIn" placeholder="Buy In"/>
+                    <div class="input-group-addon">ETH</div>
+                </div>
+
+            </div>
+
+            <button class="btn btn-primary" ng-click="create(item)">Create Game</button>
+        </div>
+    </div>
+
+    <div class="panel panel-success" ng-show="success === true">
+        <div class="panel-heading">
+            <h3 class="heading">Success</h3>
+        </div>
+        <div class="panel-body">
+            <h4>Your league has been created</h4>
+            <div class="key-value">
+                <div class="key">Address</div>
+                <div class="value">{{ address }}</div>
+
+                <a href="#/game/{{ address }}" class="btn btn-primary">Go to League Page</a>
+            </div>
+        </div>
+    </div>
+
+
+</div>

@@ -1,4 +1,30 @@
 var app = angular.module("fantethy", ['ngRoute']);
+app.controller("GameCreateCtrl", ["$scope","GameSvc", function ($scope, GameSvc) {
+    $scope.item = {};
+
+    $scope.create = function (game) {
+        $scope.errors = [];
+        if (!game.name) {
+            $scope.errors.push({ message: "Name is required."});
+        }
+        if (!game.leagueSize) {
+            $scope.errors.push({ message: "League Size is required."});
+        }
+        if (!game.buyIn) {
+            $scope.errors.push({ message: "Buy In is required."});
+        }
+
+        if ($scope.errors.length > 0) {
+            return;
+        }
+
+        var response = GameSvc.createGame(game);
+        if (response.status === "success") {
+            $scope.success = true;
+            $scope.address = response.address;
+        }
+    };
+}]);
 app.controller("GameCtrl", ["$scope", "GameSvc", "$routeParams", function ($scope, svc, $routeParams) {
 
     $scope.game = svc.getGame($routeParams.id);
@@ -61,6 +87,10 @@ app.config(['$routeProvider', function($routeProvider) {
             templateUrl: 'partials/game-join.html',
             controller: 'GameJoinCtrl'
         })
+        .when('/game/create', {
+            templateUrl: 'partials/game-create.html',
+            controller: 'GameCreateCtrl'
+        })
         .when('/game/:id', {
             templateUrl: 'partials/game.html',
             controller: 'GameCtrl'
@@ -102,8 +132,16 @@ app.factory("GameSvc", ['AngWeb3','WalletBar', function (web3, WalletBar)  {
 
     }
 
+    function createGame(game) {
+        return {
+            status: "success",
+            address: "0x23423423423423423423423423423423423423423423423423"
+        };
+    }
+
     return  {
-        getGame: getGame
+        getGame: getGame,
+        createGame: createGame
     };
 }]);
 app.factory("WalletBar", [function () {

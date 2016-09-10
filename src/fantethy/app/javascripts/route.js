@@ -16,6 +16,10 @@ app.config(['$routeProvider', function($routeProvider) {
             templateUrl: 'partials/game-join.html',
             controller: 'GameJoinCtrl'
         })
+        .when('/game/create', {
+            templateUrl: 'partials/game-create.html',
+            controller: 'GameCreateCtrl'
+        })
         .when('/game/:id', {
             templateUrl: 'partials/game.html',
             controller: 'GameCtrl'

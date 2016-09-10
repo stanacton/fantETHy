@@ -1,4 +1,17 @@
 var app = angular.module("fantethy", ['ngRoute']);
+app.controller("GameJoinCtrl", ["$scope", function ($scope) {
+    $scope.game = {
+        name: "Andy's Game #1",
+        buyIn: 33,
+        address: "0x02332423423a9df0a9a9afas0s99977688ad8",
+        type: "Winner Takes All",
+        isPrivate: false
+    };
+
+    $scope.join = function () {
+        $scope.success = true;
+    };
+}]);
 app.controller("GamesListCtrl", ['$scope', function ($scope) {
     $scope.games = [
         { buyIn: 3, address: "0x12423596843e32f32af333", type: "WINNER_TAKES_ALL", name: "Andy's Game #1"},
@@ -7,12 +20,20 @@ app.controller("GamesListCtrl", ['$scope', function ($scope) {
         { buyIn: 15, address: "0x12423596843e32f32af333", type: "WINNER_TAKES_ALL", name: "Pinky's Game #3"},
         { buyIn: 15, address: "0x12423596843e32f32af333", type: "WINNER_TAKES_ALL", name: "The Brain's Game #3"},
     ];
+
+    $scope.join = function (game) {
+        var url = "#/games/" + game.address;
+        window.location.href = url;
+    };
 }]);
 
 app.controller("HomeCtrl", ['$scope','AngWeb3', function ($scope, AngWeb3) {
 
 }]);
 
+app.controller("MyGamesCtrl", ["$scope", "$http", function ($scope, $http) {
+
+}]);
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when('/home', {
@@ -22,6 +43,10 @@ app.config(['$routeProvider', function($routeProvider) {
         .when('/games', {
             templateUrl: 'partials/games-list.html',
             controller: 'GamesListCtrl'
+        })
+        .when('/games/:id', {
+            templateUrl: 'partials/game-join.html',
+            controller: 'GameJoinCtrl'
         })
         .otherwise({
             redirectTo: '/home'

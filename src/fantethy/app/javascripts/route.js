@@ -8,6 +8,10 @@ app.config(['$routeProvider', function($routeProvider) {
             templateUrl: 'partials/games-list.html',
             controller: 'GamesListCtrl'
         })
+        .when('/games/:id', {
+            templateUrl: 'partials/game-join.html',
+            controller: 'GameJoinCtrl'
+        })
         .otherwise({
             redirectTo: '/home'
         });

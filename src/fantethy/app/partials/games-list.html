@@ -1,0 +1,23 @@
+<div id="page-list-games">
+    <h2>Games</h2>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Buy-in</th>
+            <th>Address</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="game in games">
+            <td id="game-name">{{ game.name }}</td>
+            <td>{{ game.type }}</td>
+            <td>{{ game.buyIn }}</td>
+            <td>{{ game.address }}</td>
+            <td><button class="btn btn-primary btn-sm" ng-click="join(game)">Join!</button></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>

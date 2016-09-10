@@ -1,0 +1,34 @@
+<div id="page-game-join">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="heading">Join Game - {{ game.name }}</h2>
+        </div>
+        <div class="panel-body">
+            <div class="key-value">
+                <div class="key">Name</div>
+                <div class="value">{{ game.name }}</div>
+            </div>
+
+            <div class="key-value">
+                <div class="key">Game Type</div>
+                <div class="value">{{ game.type }}</div>
+            </div>
+
+            <div class="key-value">
+                <div class="key">Buy In</div>
+                <div class="value">{{ game.buyIn }}</div>
+            </div>
+
+            <div class="key-value">
+                <div class="key">Address</div>
+                <div class="value">{{ game.address }}</div>
+            </div>
+            <div class="confirm-panel">
+                <p>You are about to join this game.  It will cost you <span class="eth-cost">{{ game.buyIn }} ETH</span>.
+                    Do you want to continue?</p>
+                <button ng-click="join()" class="btn btn-primary">Yes, Join Now</button> <a href="#/games">Cancel</a>
+            </div>
+        </div>
+    </div>
+
+</div>

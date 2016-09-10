@@ -1,3 +1,28 @@
+.panel-heading .heading {
+  margin-top: 0;
+  margin-bottom: 0;
+}
 #page-list-games td.game-name {
   font-weight: bold;
+}
+#page-game-join .eth-cost {
+  font-weight: bold;
+  font-size: 120%;
+}
+#page-game-join .confirm-panel {
+  padding: 10px;
+  margin-top: 30px;
+  background-color: #fcf8e3;
+}
+.key-value .key {
+  font-weight: bold;
+  padding: 3px;
+}
+.key-value .value {
+  padding: 5px;
+  background-color: #ececec;
+  margin-left: 10px;
+  min-height: 2em;
+  padding-left: 10px;
+  border-radius: 5px;
 }

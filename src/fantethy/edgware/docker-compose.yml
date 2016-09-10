@@ -1,0 +1,27 @@
+service:
+ # geth:
+    image: ethereum/client-go
+    volumes:
+      - $PWD/datadir:/opt/.ethereum-edgeware-data-99
+      - $PWD:/opt/edgeware
+    environment:
+      - DATADIR=/opt/.ethereum-edgware-data-99
+      - NETWORKID=99
+    ports:
+      - 30303:30303
+      - 8545:8545
+    command: bash -c "geth --datadir /opt/.ethereum-edgware-data-99 init /opt/edgeware/genesis-block-edgware.json && geth --datadir /opt/.ethereum-edgware-data-99 --nat none --networkid 99 --bootnodes leave-me-alone --rpc --rpcaddr 0.0.0.0 --rpccorsdomain '*' console"
+
+
+
+
+
+
+
+#NETWORKID=909
+#DATADIR=~/.ethereum-edgware-data-$NETWORKID
+
+#mkdir -p $DATADIR
+#cp ./static-nodes.json $DATADIR
+#geth --datadir $DATADIR init ./genesis-block-edgware.json
+#geth --datadir $DATADIR --nat none --networkid $$NETWORKID --bootnodes leave-me-alone --rpc --rpcaddr 0.0.0.0 --rpccorsdomain '*' console

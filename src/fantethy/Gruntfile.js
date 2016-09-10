@@ -14,16 +14,6 @@ module.exports = function(grunt) {
                 dest: 'app/dist/fantethy.js'
             }
         },
-        copy: {
-            main: {
-                files: [
-                     // includes files within path and its sub-directories
-               //       {expand: true, cwd: 'app/lib', src: ['**'], dest: 'build/lib/'},
-                 //     {expand: true, cwd: 'app/javascripts', src: ['**'], dest: 'build/javascripts/'},
-                   //   {expand: true, cwd: 'app/', src: ['index.html'], dest: 'build/'},
-                ]
-            }
-        },
         jshint: {
             files: ['Gruntfile.js', 'app/javascripts/**/*.js'],
             options: {
@@ -62,8 +52,8 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            files: ['<%= jshint.files %>','tests/**/*Spec.js','lib/**/*.js','public/stylesheets/*.less'],
-            tasks: ['jshint','concat' ,'less', 'uglify','copy']
+            files: ['<%= jshint.files %>','tests/**/*Spec.js','lib/**/*.js','app/stylesheets/*.less'],
+            tasks: ['jshint','concat' ,'less', 'uglify']
         }
     });
 

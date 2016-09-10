@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="fantethy">
 <head>
   <title>MetaCoin - Default Truffle App</title>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link href="lib/bootstrap/dist/css/bootstrap-min.css" />
+  <link href="lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
   <link href="stylesheets/app.css" rel='stylesheet' type='text/css'>
 </head>
 <body>
   <h1>Hello World</h1>
 
+  <div class="container">
+    <div ng-view></div>
+  </div>
+
   <script src="lib/jquery/dist/jquery.min.js"></script>
   <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="lib/web3/dist/web3.min.js"></script>
   <script src="lib/angular/angular.min.js"></script>
   <script src="lib/angular-route/angular-route.min.js"></script>
-  <script src="dist/fantethy.min.js"></script>
+  <script src="dist/fantethy.js"></script>
 </body>
 </html>

@@ -31,7 +31,11 @@ app.controller("HomeCtrl", ['$scope','AngWeb3', function ($scope, AngWeb3) {
 
 }]);
 
-app.controller("MyGamesCtrl", ["$scope", "$http", function ($scope, $http) {
+app.controller("MyGamesCtrl", ["$scope", function ($scope) {
+    $scope.games = [
+        { rank: 10, buyIn: 33, address: "0x12423596843e32f32af333", type: "WINNER_TAKES_ALL", name: "Andy's Game #1", status: "DRAFT"},
+        { rank: 3, buyIn: 1, address: "0x12423596843e32f32af333", type: "WINNER_TAKES_ALL", name: "The Brain's Game #3", status: "Sesasion In Progress"},
+    ];
 
 }]);
 app.config(['$routeProvider', function($routeProvider) {
@@ -43,6 +47,10 @@ app.config(['$routeProvider', function($routeProvider) {
         .when('/games', {
             templateUrl: 'partials/games-list.html',
             controller: 'GamesListCtrl'
+        })
+        .when('/my-games', {
+            templateUrl: 'partials/games-mine.html',
+            controller: 'MyGamesCtrl'
         })
         .when('/games/:id', {
             templateUrl: 'partials/game-join.html',

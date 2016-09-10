@@ -8,6 +8,10 @@ app.config(['$routeProvider', function($routeProvider) {
             templateUrl: 'partials/games-list.html',
             controller: 'GamesListCtrl'
         })
+        .when('/my-games', {
+            templateUrl: 'partials/games-mine.html',
+            controller: 'MyGamesCtrl'
+        })
         .when('/games/:id', {
             templateUrl: 'partials/game-join.html',
             controller: 'GameJoinCtrl'

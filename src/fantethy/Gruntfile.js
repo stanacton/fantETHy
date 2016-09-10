@@ -11,14 +11,16 @@ module.exports = function(grunt) {
             },
             dist: {
                 src: ['app/javascripts/**/*.js'],
-                dest: 'build/app.js'
+                dest: 'app/dist/fantethy.js'
             }
         },
         copy: {
             main: {
                 files: [
                      // includes files within path and its sub-directories
-                      {expand: true, src: ['app/lib/**'], dest: 'build/lib/'},
+               //       {expand: true, cwd: 'app/lib', src: ['**'], dest: 'build/lib/'},
+                 //     {expand: true, cwd: 'app/javascripts', src: ['**'], dest: 'build/javascripts/'},
+                   //   {expand: true, cwd: 'app/', src: ['index.html'], dest: 'build/'},
                 ]
             }
         },
@@ -36,7 +38,7 @@ module.exports = function(grunt) {
         uglify: {
             my_target: {
                 files: {
-                    'build/app.min.js': ['build/app.js']
+                    'app/dist/fantethy.min.js': ['app/dist/fantethy.js']
                 }
             }
         },
@@ -73,6 +75,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-mocha-test');
+    grunt.loadNpmTasks('grunt-go');
 
     grunt.registerTask('default', ['jshint','concat' ,'less', 'uglify','copy']);
 //    grunt.registerTask('test', ['jshint', 'concat','mochaTest']);

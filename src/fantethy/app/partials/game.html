@@ -14,12 +14,14 @@
                         <tr>
                             <th>Rank</th>
                             <th>Name</th>
+                            <th class="numeric">Points</th>
                         </tr>
                         </thead>
                         <thead>
-                        <tr ng-repeat="player in game.players | orderBy: 'rank' ">
-                            <td>{{ player.rank }}</td>
-                            <td>{{ player.name }}</td>
+                        <tr ng-repeat="user in game.users | orderBy: 'rank' ">
+                            <td>{{ user.rank }}</td>
+                            <td>{{ user.name }}</td>
+                            <td class="numeric">{{ user.points }}</td>
                         </tr>
                         </thead>
                     </table>
@@ -35,6 +37,53 @@
                     <div class="prize-pool-size">{{ game.prizePool }} ETH</div>
                 </div>
             </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="heading">Time Remaining</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="prize-pool-size">{{ game.weeksRemaining }} weeks</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default" ng-repeat="user in game.users">
+        <div class="panel-heading">
+            <h4 class="heading">Team {{ user.name }}</h4>
+        </div>
+        <div class="panel-body">
+            <table class="table table-condensed">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th class="numeric">Goals</th>
+                    <th class="numeric">Assists</th>
+                    <th class="numeric">Saves</th>
+                    <th class="numeric">Clean Sheet</th>
+                    <th class="numeric">Goals Conceded</th>
+                    <th class="numeric">Missed Pen.</th>
+                    <th class="numeric">Red Cards</th>
+                    <th class="numeric">Score</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="player in user.players">
+                    <td>{{ player.name }}</td>
+                    <td class="numeric">{{ player.goals || 0 }}</td>
+                    <td class="numeric">{{ player.assists || 0 }}</td>
+                    <td class="numeric">{{ player.saves || 0 }}</td>
+                    <td class="numeric">{{ player.cleanSheets || 0 }}</td>
+                    <td class="numeric">{{ player.goals || 0 }}</td>
+                    <td class="numeric">{{ player.missedPen || 0 }}</td>
+                    <td class="numeric">{{ player.redCards || 0 }}</td>
+                    <td class="numeric">{{ player.score || 0 }}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 

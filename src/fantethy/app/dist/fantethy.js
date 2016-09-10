@@ -1,16 +1,7 @@
 var app = angular.module("fantethy", ['ngRoute']);
-app.controller("GameCtrl", ["$scope", function ($scope) {
-    $scope.game = {
-        name: "Andy's Premiership",
-        status: "Season in Progress",
-        prizePool: 34,
-        players: [
-            { rank: 1, name: "Andy", address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a"},
-            { rank: 2, name: "Chris", address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a"},
-            { rank: 3, name: "Coleman", address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a"},
-            { rank: 4, name: "Acton", address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a"}
-        ]
-    };
+app.controller("GameCtrl", ["$scope", "GameSvc", "$routeParams", function ($scope, svc, $routeParams) {
+
+    $scope.game = svc.getGame($routeParams.id);
 
 }]);
 app.controller("GameJoinCtrl", ["$scope", function ($scope) {
@@ -78,15 +69,48 @@ app.config(['$routeProvider', function($routeProvider) {
             redirectTo: '/home'
         });
 }]);
-if (typeof web3 !== 'undefined') {
-    web3 = new Web3(web3.currentProvider);
-} else {
-    // set the provider you want from Web3.providers
-    web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
-}
 
-(function(web3, app) {
-    app.factory("AngWeb3", [function () {
+(function(Web3, app) {
+    app.factory("AngWeb3", ["WalletBar", function (WalletBar) {
+
+        var web3 = new Web3();
+        web3.setProvider(WalletBar.getHook('edgware'));
+
         return web3;
     }]);
-})(web3, app);
+})(Web3, app);
+
+app.factory("GameSvc", ['AngWeb3','WalletBar', function (web3, WalletBar)  {
+    function getGame(id) {
+        var players = [
+            { name: "Ronaldo"},
+            { name: "Andre Gray"},
+        ];
+
+        return {
+            weeksRemaining: 4,
+            name: "Andy's Premiership",
+            status: "Season in Progress",
+            prizePool: 34,
+            users: [
+                { rank: 1, name: "Andy", points: 345, address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players},
+                { rank: 2, name: "Chris",points: 245, address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players},
+                { rank: 3, name: "Coleman",points: 45, address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players},
+                { rank: 4, name: "Acton", points: 5,address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players}
+            ]
+        };
+
+    }
+
+    return  {
+        getGame: getGame
+    };
+}]);
+app.factory("WalletBar", [function () {
+    var dappID = "com-addc-fantethy-dev-edgware";
+    var callbackUrl = "http://localhost:63342";
+    return new WalletBar({
+        dappNamespace: dappID,
+        authServiceCallbackUrl: callbackUrl
+    });
+}]);

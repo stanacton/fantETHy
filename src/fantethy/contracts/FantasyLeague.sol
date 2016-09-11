@@ -122,8 +122,13 @@ contract FantasyLeague  {
         scoringPoints.redCard = -5;
         scoringPoints.yellowCard = -1;
 
-        buyIn = setBuyIn;
-        startingFunds = 5000;
+        buyIn = setBuyIn; // this is in ether.
+        startingFunds = 5000; // these are our tokens
+
+        if (balances[msg.sender] < buyIn) return false;
+        balances[msg.sender] -= buyIn;
+        balances[this.address] += buyIn;
+        Transfer(msg.sender, this.address, buyIn);
     }
 
     function joinLeague() entitledUsersOnly returns (bool) {

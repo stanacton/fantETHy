@@ -23,4 +23,8 @@ contract Players  {
     	// check msg.sender is the same as owner address using function modifier.
     	// check the contract is not sealed already.
     }
+
+    function addPlayer(Player player) {
+        players[players.length] = player
+    }
 }

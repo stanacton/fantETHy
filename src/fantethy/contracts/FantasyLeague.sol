@@ -1,7 +1,7 @@
 contract EntitlementRegistry{function get(string _name)constant returns(address );function getOrThrow(string _name)constant returns(address );}
 contract Entitlement{function isEntitled(address _address)constant returns(bool );}
 
-// import "./Oraclize.sol";
+import "./OraclizeI.sol";
 
 contract FantasyLeague  {
 
@@ -129,6 +129,8 @@ contract FantasyLeague  {
 
         buyIn = setBuyIn; // this is in ether.
         startingFunds = 5000; // these are our tokens
+
+        oraclize_query("URL", "www.fantethy.football:443/nextreportitem");
     }
 
     function joinLeague() entitledUsersOnly returns (bool) {
@@ -149,11 +151,22 @@ contract FantasyLeague  {
         // 
     }
 
-    function onUpdate() entitledUsersOnly {
+    function onUpdate(int playerId, string type) entitledUsersOnly {
         // iterate over data structure
         // for each event see if that event effects a team
         // if it does then update the team score
         // regardless of above update global scores for player.
         // setup the next schedule call to API (or refactor to lazy loading)
     }
+
+    function __callback(bytes32 myid, string result) {
+		if (msg.sender != oraclize_cbAddress()) throw;
+
+
+
+		// doing something with the result..
+
+
+		oraclize_query(60, "URL", "www.fantethy.football:443/nextreportitem");
+	}
 }

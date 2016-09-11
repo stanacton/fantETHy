@@ -7,6 +7,9 @@ app.controller("GameCreateCtrl", ["$scope","GameSvc", function ($scope, GameSvc)
         if (!game.name) {
             $scope.errors.push({ message: "Name is required."});
         }
+        if (!game.nickname) {
+            $scope.errors.push({ message: "Nickname is required."});
+        }
         if (!game.leagueSize) {
             $scope.errors.push({ message: "League Size is required."});
         }
@@ -22,6 +25,8 @@ app.controller("GameCreateCtrl", ["$scope","GameSvc", function ($scope, GameSvc)
         if (response.status === "success") {
             $scope.success = true;
             $scope.address = response.address;
+        } else {
+            console.log("The error was: ", response);
         }
     };
 }]);
@@ -69,7 +74,91 @@ app.controller("MyGamesCtrl", ["$scope", function ($scope) {
     ];
 
 }]);
-app.config(['$routeProvider', function($routeProvider) {
+app.controller("SelectTeamCtrl", ["$scope", "$routeParams","PlayersSvc", function ($scope, $routeParams, PlayersSvc) {
+    $scope.max = {
+        maxForwards: 2,
+        maxMidField: 4,
+        maxDefender: 4,
+        maxGoalkeeper: 1
+    };
+
+    $scope.team = {
+        forwards: [],
+        midfield: [],
+        defender: [],
+        goalkeeper: []
+    };
+
+    PlayersSvc.getPlayers()
+        .success(function (data) {
+            $scope.players = data;
+        });
+
+    $scope.addForward = function(player) {
+        if ($scope.team.forwards.length < $scope.max.maxForwards) {
+            addUser($scope.team.forwards, player);
+        }
+    };
+
+    $scope.addKeeper = function (player) {
+        if ($scope.team.goalkeeper.length < $scope.max.maxGoalkeeper) {
+            addUser($scope.team.goalkeeper, player);
+        }
+    };
+
+    $scope.addMidfield = function (player) {
+        if ($scope.team.midfield.length < $scope.max.maxMidField) {
+            addUser($scope.team.midfield, player);
+        }
+    };
+
+    $scope.addDefender = function (player) {
+        if ($scope.team.midfield.length < $scope.max.maxDefender) {
+            addUser($scope.team.defender, player);
+        }
+    };
+
+    function addUser(array, player) {
+        for (var i = 0; i < array.length; i++) {
+            var existingPlayer = array[i];
+            if (existingPlayer.name === player.name) {
+                console.log("Already added.");
+                return;
+            }
+        }
+
+        array.push(player);
+    }
+
+    $scope.moveUp = function (aryName, player) {
+        var index = $scope.team[aryName].indexOf(player);
+        console.log("index", index);
+        if (index > 0) {
+            $scope.team[aryName].splice(index, 1);
+            var newIndex = index - 1;
+            $scope.team[aryName].splice(newIndex,0, player);
+        }
+    };
+
+    $scope.moveDown = function (aryName, player) {
+        var index = $scope.team[aryName].indexOf(player);
+        console.log("index", index);
+        if (index < $scope.team[aryName].length) {
+            $scope.team[aryName].splice(index, 1);
+            var newIndex = index + 1;
+            $scope.team[aryName].splice(newIndex,0, player);
+        }
+    };
+
+    $scope.remove = function (aryName, player) {
+        var index = $scope.team[aryName].indexOf(player);
+        if (index < $scope.team[aryName].length) {
+            $scope.team[aryName].splice(index, 1);
+        }
+    };
+
+}]);
+app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider
         .when('/home', {
             templateUrl: 'partials/home.html',
@@ -91,6 +180,10 @@ app.config(['$routeProvider', function($routeProvider) {
             templateUrl: 'partials/game-create.html',
             controller: 'GameCreateCtrl'
         })
+        .when('/game/:id/select-team', {
+            templateUrl: 'partials/select-team.html',
+            controller: 'SelectTeamCtrl'
+        })
         .when('/game/:id', {
             templateUrl: 'partials/game.html',
             controller: 'GameCtrl'
@@ -98,13 +191,26 @@ app.config(['$routeProvider', function($routeProvider) {
         .otherwise({
             redirectTo: '/home'
         });
+
+   // $locationProvider.html5Mode(true);
 }]);
 
 (function(Web3, app) {
     app.factory("AngWeb3", ["WalletBar", function (WalletBar) {
 
         var web3 = new Web3();
-        web3.setProvider(WalletBar.getHook('edgware'));
+        var hook = WalletBar.getHook('edgeware');
+        console.log("Hook", hook);
+        if (hook) {
+            web3.setProvider(WalletBar.getHook('edgware'));
+        } else {
+            if (typeof web3 !== 'undefined') {
+                web3 = new Web3(web3.currentProvider);
+            } else {
+                // set the provider you want from Web3.providers
+                web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+            }
+        }
 
         return web3;
     }]);
@@ -123,15 +229,16 @@ app.factory("GameSvc", ['AngWeb3','WalletBar',"$http", function (web3, WalletBar
         ];
 
         var item = {
+            address: "0xda3323f2332f32f32f23f32f",
             weeksRemaining: 4,
             name: "Andy's Premiership",
             status: "Season in Progress",
             prizePool: 34,
             users: [
-                { rank: 1, name: "Andy", points: 345, address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players},
-                { rank: 2, name: "Chris",points: 245, address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players},
-                { rank: 3, name: "Coleman",points: 45, address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players},
-                { rank: 4, name: "Acton", points: 5,address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players}
+                { rank: 3, name: "Andy", points: 345, address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players},
+                { rank: 4, name: "Chris",points: 245, address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players},
+                { rank: 2, name: "Coleman",points: 45, address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players},
+                { rank: 1, name: "Acton", points: 5,address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players}
             ]
         };
 
@@ -140,7 +247,7 @@ app.factory("GameSvc", ['AngWeb3','WalletBar',"$http", function (web3, WalletBar
     }
 
     function createGame(game) {
-        var fantasyleague = FantasyLeagueContract.new(
+        /*var fantasyleague = FantasyLeagueContract.new(
             game.name,
             game.buyIn,
             {
@@ -161,7 +268,7 @@ app.factory("GameSvc", ['AngWeb3','WalletBar',"$http", function (web3, WalletBar
                     };
                 }
             });
-
+*/
         return {
             status: "success",
             address: "0x23423423423423423423423423423423423423423423423423"
@@ -173,11 +280,23 @@ app.factory("GameSvc", ['AngWeb3','WalletBar',"$http", function (web3, WalletBar
         createGame: createGame
     };
 }]);
+app.factory("PlayersSvc", ["$http", function ($http) {
+    function getPlayers() {
+        return $http.get("javascripts/data/players.json");
+    }
+
+    return {
+        getPlayers: getPlayers
+    };
+}]);
 app.factory("WalletBar", [function () {
     var dappID = "com-addc-fantethy-dev-edgware";
     var callbackUrl = "http://localhost:63342";
-    return new WalletBar({
+    var walletBar = new WalletBar({
         dappNamespace: dappID,
         authServiceCallbackUrl: callbackUrl
     });
+    console.log(JSON.stringify(walletBar, null, 4));
+
+    return walletBar;
 }]);

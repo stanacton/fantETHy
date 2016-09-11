@@ -28,7 +28,9 @@
             <td>{{ game.type }}</td>
             <td>{{ game.buyIn }}</td>
             <td>{{ game.address }}</td>
-            <td><button class="btn btn-primary btn-xs" ng-click="details(game)">Details</button></td>
+            <td>
+                <a class="btn btn-primary btn-xs" href="#/game/{{ game.address }}">Details</a>
+            </td>
         </tr>
         </tbody>
     </table>

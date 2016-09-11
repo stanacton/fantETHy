@@ -1,4 +1,4 @@
-app.config(['$routeProvider', function($routeProvider) {
+app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider
         .when('/home', {
             templateUrl: 'partials/home.html',
@@ -20,6 +20,10 @@ app.config(['$routeProvider', function($routeProvider) {
             templateUrl: 'partials/game-create.html',
             controller: 'GameCreateCtrl'
         })
+        .when('/game/:id/select-team', {
+            templateUrl: 'partials/select-team.html',
+            controller: 'SelectTeamCtrl'
+        })
         .when('/game/:id', {
             templateUrl: 'partials/game.html',
             controller: 'GameCtrl'
@@ -27,4 +31,6 @@ app.config(['$routeProvider', function($routeProvider) {
         .otherwise({
             redirectTo: '/home'
         });
+
+   // $locationProvider.html5Mode(true);
 }]);

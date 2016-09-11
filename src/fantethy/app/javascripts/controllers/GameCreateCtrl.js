@@ -6,6 +6,9 @@ app.controller("GameCreateCtrl", ["$scope","GameSvc", function ($scope, GameSvc)
         if (!game.name) {
             $scope.errors.push({ message: "Name is required."});
         }
+        if (!game.nickname) {
+            $scope.errors.push({ message: "Nickname is required."});
+        }
         if (!game.leagueSize) {
             $scope.errors.push({ message: "League Size is required."});
         }
@@ -21,6 +24,8 @@ app.controller("GameCreateCtrl", ["$scope","GameSvc", function ($scope, GameSvc)
         if (response.status === "success") {
             $scope.success = true;
             $scope.address = response.address;
+        } else {
+            console.log("The error was: ", response);
         }
     };
 }]);

@@ -11,15 +11,16 @@ app.factory("GameSvc", ['AngWeb3','WalletBar',"$http", function (web3, WalletBar
         ];
 
         var item = {
+            address: "0xda3323f2332f32f32f23f32f",
             weeksRemaining: 4,
             name: "Andy's Premiership",
             status: "Season in Progress",
             prizePool: 34,
             users: [
-                { rank: 1, name: "Andy", points: 345, address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players},
-                { rank: 2, name: "Chris",points: 245, address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players},
-                { rank: 3, name: "Coleman",points: 45, address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players},
-                { rank: 4, name: "Acton", points: 5,address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players}
+                { rank: 3, name: "Andy", points: 345, address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players},
+                { rank: 4, name: "Chris",points: 245, address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players},
+                { rank: 2, name: "Coleman",points: 45, address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players},
+                { rank: 1, name: "Acton", points: 5,address: "0x44asa097fad6fdfs9s87f9s7f97a7f7af7e9f7a89a7f9a", players: players}
             ]
         };
 
@@ -28,7 +29,7 @@ app.factory("GameSvc", ['AngWeb3','WalletBar',"$http", function (web3, WalletBar
     }
 
     function createGame(game) {
-        var fantasyleague = FantasyLeagueContract.new(
+        /*var fantasyleague = FantasyLeagueContract.new(
             game.name,
             game.buyIn,
             {
@@ -49,7 +50,7 @@ app.factory("GameSvc", ['AngWeb3','WalletBar',"$http", function (web3, WalletBar
                     };
                 }
             });
-
+*/
         return {
             status: "success",
             address: "0x23423423423423423423423423423423423423423423423423"

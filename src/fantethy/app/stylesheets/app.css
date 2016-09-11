@@ -28,6 +28,10 @@
   margin-right: auto;
   text-align: center;
 }
+#page-select-team .scroll-panel {
+  overflow: scroll;
+  max-height: 200px;
+}
 .key-value .key {
   font-weight: bold;
   padding: 3px;

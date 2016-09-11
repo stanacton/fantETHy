@@ -12,6 +12,7 @@ app.factory("GameSvc", ['AngWeb3','WalletBar',"$http", function (web3, WalletBar
 
         var item = {
             address: "0xda3323f2332f32f32f23f32f",
+            buyIn: 4,
             weeksRemaining: 4,
             name: "Andy's Premiership",
             status: "Season in Progress",

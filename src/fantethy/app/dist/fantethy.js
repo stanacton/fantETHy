@@ -35,19 +35,6 @@ app.controller("GameCtrl", ["$scope", "GameSvc", "$routeParams", function ($scop
     $scope.game = svc.getGame($routeParams.id);
 
 }]);
-app.controller("GameJoinCtrl", ["$scope", function ($scope) {
-    $scope.game = {
-        name: "Andy's Game #1",
-        buyIn: 33,
-        address: "0x02332423423a9df0a9a9afas0s99977688ad8",
-        type: "Winner Takes All",
-        isPrivate: false
-    };
-
-    $scope.join = function () {
-        $scope.success = true;
-    };
-}]);
 app.controller("GamesListCtrl", ['$scope', function ($scope) {
     $scope.games = [
         { buyIn: 3, address: "0x12423596843e32f32af333", type: "WINNER_TAKES_ALL", name: "Andy's Game #1"},
@@ -67,6 +54,26 @@ app.controller("HomeCtrl", ['$scope','AngWeb3', function ($scope, AngWeb3) {
 
 }]);
 
+app.controller("JoinGameCtrl", ["$scope", "GameSvc","$routeParams", function ($scope, GameSvc, $routeParams) {
+    $scope.game = GameSvc.getGame($routeParams.id);
+
+    $scope.joinGame = function (user) {
+        if (!user.nickname) {
+            $scope.errors.push({ message: "Nickname is required."});
+        }
+
+        if ($scope.errors.length > 0) {
+            return;
+        }
+
+        var response = GameSvc.joinGame($routeParams.id, user);
+        if (response.status === 'success') {
+            window.location.href = "#/game/" + $routeParams.id;
+        } else {
+            $scope.errors.push({ message: "There was an error joining the game."});
+        }
+    };
+}]);
 app.controller("MyGamesCtrl", ["$scope", function ($scope) {
     $scope.games = [
         { rank: 10, buyIn: 33, address: "0x12423596843e32f32af333", type: "WINNER_TAKES_ALL", name: "Andy's Game #1", status: "DRAFT"},
@@ -208,13 +215,13 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             templateUrl: 'partials/games-mine.html',
             controller: 'MyGamesCtrl'
         })
-        .when('/games/join/:id', {
-            templateUrl: 'partials/game-join.html',
-            controller: 'GameJoinCtrl'
-        })
         .when('/game/create', {
             templateUrl: 'partials/game-create.html',
             controller: 'GameCreateCtrl'
+        })
+        .when('/game/:id/join', {
+            templateUrl: 'partials/game-join.html',
+            controller: 'JoinGameCtrl'
         })
         .when('/game/:id/select-team', {
             templateUrl: 'partials/select-team.html',
@@ -266,6 +273,7 @@ app.factory("GameSvc", ['AngWeb3','WalletBar',"$http", function (web3, WalletBar
 
         var item = {
             address: "0xda3323f2332f32f32f23f32f",
+            buyIn: 4,
             weeksRemaining: 4,
             name: "Andy's Premiership",
             status: "Season in Progress",

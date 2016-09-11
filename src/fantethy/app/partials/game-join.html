@@ -1,4 +1,8 @@
 <div id="page-game-join">
+    <div class="alert alert-danger" ng-show="errors.length > 0">
+        <div ng-repeat="error in errors">{{ error.message }}</div>
+    </div>
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <h2 class="heading">Join Game - {{ game.name }}</h2>
@@ -10,13 +14,8 @@
             </div>
 
             <div class="key-value">
-                <div class="key">Game Type</div>
-                <div class="value">{{ game.type }}</div>
-            </div>
-
-            <div class="key-value">
                 <div class="key">Buy In</div>
-                <div class="value">{{ game.buyIn }}</div>
+                <div class="value">{{ game.buyIn }} ETH</div>
             </div>
 
             <div class="key-value">
@@ -24,6 +23,11 @@
                 <div class="value">{{ game.address }}</div>
             </div>
             <div class="confirm-panel">
+                <div class="form-group">
+                    <label for="nickname">Nickname</label>
+                    <input class="form-control" type="text" id="nickname" ng-model="item.nickname" placeholder="Nickname"/>
+                </div>
+
                 <p>You are about to join this game.  It will cost you <span class="eth-cost">{{ game.buyIn }} ETH</span>.
                     Do you want to continue?</p>
                 <button ng-click="join()" class="btn btn-primary">Yes, Join Now</button> <a href="#/games">Cancel</a>

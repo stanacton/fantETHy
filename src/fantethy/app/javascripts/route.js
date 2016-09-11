@@ -12,13 +12,13 @@ app.config(['$routeProvider', '$locationProvider', function($routeProvider, $loc
             templateUrl: 'partials/games-mine.html',
             controller: 'MyGamesCtrl'
         })
-        .when('/games/join/:id', {
-            templateUrl: 'partials/game-join.html',
-            controller: 'GameJoinCtrl'
-        })
         .when('/game/create', {
             templateUrl: 'partials/game-create.html',
             controller: 'GameCreateCtrl'
+        })
+        .when('/game/:id/join', {
+            templateUrl: 'partials/game-join.html',
+            controller: 'JoinGameCtrl'
         })
         .when('/game/:id/select-team', {
             templateUrl: 'partials/select-team.html',

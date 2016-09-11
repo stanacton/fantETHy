@@ -1,15 +1,15 @@
 contract Players  {
 
-    enum PlayerPosition { Attacker, CentreForward, Defender, GoalKeeper, Error }
+    enum PlayerPosition { Forward, MidFielder, Defender, GoalKeeper, Error }
     PlayerPosition constant defaultChoice = PlayerPosition.Error;
     
     struct Player {
         int uid;
-    	string FullName;
+    	string fullName;
         PlayerPosition position;
     }
 
-    mapping (address => Player) players;
+    Player[] players;
 
     address owner;
 
@@ -24,7 +24,29 @@ contract Players  {
     	// check the contract is not sealed already.
     }
 
-    function addPlayer(Player player) {
-        players[players.length] = player;
+    function stringsEqual(string x, string y) returns (bool) {
+        return sha3(x) == sha3(y) ? true : false;
+    }
+
+    function addPlayer(int uid, string fullName, string position) returns (bool) {
+        // TODO: conver position to enum.
+        PlayerPosition playerPosition;
+        if(stringsEqual(position, "GK")){
+            playerPosition = PlayerPosition.GoalKeeper;
+        }
+        if(stringsEqual(position, "DF")){
+            playerPosition = PlayerPosition.Defender;
+        }
+        if(stringsEqual(position, "MF")){
+            playerPosition = PlayerPosition.MidFielder;
+        }
+        if(stringsEqual(position, "FW")){
+            playerPosition = PlayerPosition.Forward;
+        }
+        else {
+            return false;
+        }
+        players[players.length] = Player(uid, fullName, playerPosition);
+        return true;
     }
 }

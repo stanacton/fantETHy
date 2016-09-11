@@ -8,6 +8,8 @@ contract FantasyLeague  {
      // The address below is for the Edgware network only
      EntitlementRegistry entitlementRegistry = EntitlementRegistry(0xe5483c010d0f50ac93a341ef5428244c84043b54);
 
+     event Transfer(address indexed _from, address indexed _to, uint256 _value);
+
      function getEntitlement() constant returns(address) {
          return entitlementRegistry.getOrThrow("com.addc.fantethy.dev");
      }
@@ -95,6 +97,7 @@ contract FantasyLeague  {
     int startingFunds;
     // TODO: Add PayoutType variable.
     // TODO: Check UI table, one field is missing here.
+    mapping (address => uint) balances;
 
     function getStatus () entitledUsersOnly returns (LeagueStatus) {
         return status;
@@ -124,11 +127,6 @@ contract FantasyLeague  {
 
         buyIn = setBuyIn; // this is in ether.
         startingFunds = 5000; // these are our tokens
-
-        if (balances[msg.sender] < buyIn) return false;
-        balances[msg.sender] -= buyIn;
-        balances[this] += buyIn;
-        Transfer(msg.sender, this, buyIn);
     }
 
     function joinLeague() entitledUsersOnly returns (bool) {
@@ -137,6 +135,10 @@ contract FantasyLeague  {
             return false;
         }
         // teams[msg.sender] = Team(msg.sender, -1, [], false, startingFunds);
+        if (balances[msg.sender] < buyIn) return false;
+        balances[msg.sender] -= buyIn;
+        balances[this] += buyIn;
+        Transfer(msg.sender, this, buyIn);
         return true;
     }
 

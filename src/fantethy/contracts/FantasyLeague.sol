@@ -1,6 +1,7 @@
 contract EntitlementRegistry{function get(string _name)constant returns(address );function getOrThrow(string _name)constant returns(address );}
 contract Entitlement{function isEntitled(address _address)constant returns(bool );}
 
+// import "./Oraclize.sol";
 
 contract FantasyLeague  {
 
@@ -16,6 +17,7 @@ contract FantasyLeague  {
 
      modifier entitledUsersOnly {
        if (!Entitlement(getEntitlement()).isEntitled(msg.sender)) throw;
+       _;
      }
 
     struct Player {

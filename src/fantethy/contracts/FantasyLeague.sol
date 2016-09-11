@@ -17,6 +17,7 @@ contract FantasyLeague  {
 
      modifier entitledUsersOnly {
        if (!Entitlement(getEntitlement()).isEntitled(msg.sender)) throw;
+       _;
      }
 
     struct Player {

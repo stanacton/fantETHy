@@ -39,17 +39,14 @@ contract Players  {
         if(stringsEqual(position, "GK")){
             playerPosition = PlayerPosition.GoalKeeper;
         }
-        else if(stringsEqual(position, "DF")){
+        if(stringsEqual(position, "DF")){
             playerPosition = PlayerPosition.Defender;
         }
-        else if(stringsEqual(position, "MF")){
+        if(stringsEqual(position, "MF")){
             playerPosition = PlayerPosition.MidFielder;
         }
-        else if(stringsEqual(position, "FW")){
+        if(stringsEqual(position, "FW")){
             playerPosition = PlayerPosition.Forward;
-        }
-        else {
-            return false;
         }
         players[players.length] = Player(uid, fullName, playerPosition);
         return true;

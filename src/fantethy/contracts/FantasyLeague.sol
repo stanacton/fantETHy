@@ -127,8 +127,8 @@ contract FantasyLeague  {
 
         if (balances[msg.sender] < buyIn) return false;
         balances[msg.sender] -= buyIn;
-        balances[this.address] += buyIn;
-        Transfer(msg.sender, this.address, buyIn);
+        balances[this] += buyIn;
+        Transfer(msg.sender, this, buyIn);
     }
 
     function joinLeague() entitledUsersOnly returns (bool) {

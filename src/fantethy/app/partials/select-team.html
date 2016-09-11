@@ -1,0 +1,240 @@
+<div id="page-select-team">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="heading">Forwards</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 col-md-6">
+                    <h4>My Team  <span class="label label-info">{{ team.forwards.length || 0 }} of {{ max.maxForwards || 0 }}</span></h4>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="player in team.forwards">
+                            <td>{{ player.name }}</td>
+                            <td>{{ player.position }}</td>
+                            <td>
+                                <button class="btn btn-default btn-xs" ng-click="moveUp('forwards', player)"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                <button class="btn btn-default btn-xs" ng-click="moveDown('forwards', player)"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger btn-xs" ng-click="remove('forwards', player)"><span class="glyphicon glyphicon-remove"></span></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6">
+                    <h4>Players</h4>
+                    <input type="text" class="form-control" ng-model="forwardFilter" placeholder="Player Name"/>
+                    <div class="scroll-panel">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Position</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="player in players | filter: forwardFilter | filter: 'FW' | orderBy: 'name'">
+                                <td><button ng-click="addForward(player)"><span class="glyphicon glyphicon-arrow-left"></span></button></td>
+                                <td>{{ player.name }}</td>
+                                <td>{{ player.position }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+   <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="heading">Midfield</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 col-md-6">
+                    <h4>My Team <span class="label label-info">{{ team.midfield.length || 0 }} of {{ max.maxMidField || 0 }}</span></h4>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="player in team.midfield">
+                            <td>{{ player.name }}</td>
+                            <td>{{ player.position }}</td>
+                            <td>
+                                <button class="btn btn-default btn-xs" ng-click="moveUp('midfield', player)"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                <button class="btn btn-default btn-xs" ng-click="moveDown('midfield', player)"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger btn-xs" ng-click="remove('midfield', player)"><span class="glyphicon glyphicon-remove"></span></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6">
+                    <h4>Players</h4>
+                    <input type="text" class="form-control" ng-model="midfieldFilter" placeholder="Player Name"/>
+                    <div class="scroll-panel">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Position</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="player in players | filter: midfieldFilter | filter: 'MF' | orderBy: 'name'">
+                                <td><button ng-click="addMidfield(player)"><span class="glyphicon glyphicon-arrow-left"></span></button></td>
+                                <td>{{ player.name }}</td>
+                                <td>{{ player.position }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+   <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="heading">Defenders</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 col-md-6">
+                    <h4>My Team <span class="label label-info">{{ team.defender.length || 0 }} of {{ max.maxDefender || 0 }}</span></h4>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="player in team.defender">
+                            <td>{{ player.name }}</td>
+                            <td>{{ player.position }}</td>
+                            <td>
+                                <button class="btn btn-default btn-xs" ng-click="moveUp('defender', player)"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                <button class="btn btn-default btn-xs" ng-click="moveDown('defender', player)"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger btn-xs" ng-click="remove('defender', player)"><span class="glyphicon glyphicon-remove"></span></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6">
+                    <h4>Players</h4>
+                    <input type="text" class="form-control" ng-model="defenderFilter" placeholder="Player Name"/>
+                    <div class="scroll-panel">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Position</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="player in players | filter: defenderFilter | filter: 'DF' | orderBy: 'name'">
+                                <td><button ng-click="addDefender(player)"><span class="glyphicon glyphicon-arrow-left"></span></button></td>
+                                <td>{{ player.name }}</td>
+                                <td>{{ player.position }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+   <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="heading">Goal Keepers </h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 col-md-6">
+                    <h4>My Team <span class="label label-info">{{ team.goalkeeper.length || 0 }} of {{ max.maxGoalkeeper || 0 }}</span></h4>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Position</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="player in team.goalkeeper">
+                            <td>{{ player.name }}</td>
+                            <td>{{ player.position }}</td>
+                            <td>
+                                <button class="btn btn-default btn-xs" ng-click="moveUp('goalkeeper', player)"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                                <button class="btn btn-default btn-xs" ng-click="moveDown('goalkeeper', player)"><span class="glyphicon glyphicon-arrow-down"></span></button>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger btn-xs" ng-click="remove('goalkeeper', player)"><span class="glyphicon glyphicon-remove"></span></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6">
+                    <h4>Players</h4>
+                    <input type="text" class="form-control" ng-model="keeperFilter" placeholder="Player Name"/>
+                    <div class="scroll-panel">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Position</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="player in players | filter: keeperFilter | filter: 'GK' | orderBy: 'name'">
+                                <td><button ng-click="addKeeper(player)"><span class="glyphicon glyphicon-arrow-left"></span></button></td>
+                                <td>{{ player.name }}</td>
+                                <td>{{ player.position }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

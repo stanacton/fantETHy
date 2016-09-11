@@ -4,7 +4,7 @@ contract Players  {
     PlayerPosition constant defaultChoice = PlayerPosition.Error;
     
     struct Player {
-        int id;
+        int uid;
     	string FullName;
         PlayerPosition position;
     }
@@ -25,6 +25,6 @@ contract Players  {
     }
 
     function addPlayer(Player player) {
-        players[players.length] = player
+        players[players.length] = player;
     }
 }

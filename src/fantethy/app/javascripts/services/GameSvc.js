@@ -29,16 +29,9 @@ app.factory("GameSvc", ['AngWeb3','WalletBar',"$http", function (web3, WalletBar
 
     }
 
-    function getAccount() {
-        var account = WalletBar.getCurrentAccount(); // get account selected in wallet bar
-        if (!account) return alert("You must log in to transact");
-        WalletBar.createSecureSigner();
-        return account;
-    }
-
     function createGame(game, next) {
         var account = WalletBar.getCurrentAccount(); // get account selected in wallet bar
-        if (!account) return alert("You must log in to transact");
+        if (!account) return alert("You must log in to transact: create");
         WalletBar.createSecureSigner();
 
         FantasyLeagueContract.new(
@@ -74,7 +67,7 @@ app.factory("GameSvc", ['AngWeb3','WalletBar',"$http", function (web3, WalletBar
         if (!account) return alert("You must log in to transact");
         WalletBar.createSecureSigner();
         var league = FantasyLeagueContract.at(leagueId);
-        league.joinLeague.call({
+        league.joinLeague({
             from: account,
             value:web3.toWei(4, 'ether')
         }, function (err, response) {

@@ -5,15 +5,12 @@ app.controller("JoinGameCtrl", ["$scope", "GameSvc","$routeParams", function ($s
 
         console.log("TRYING TYRIG");
 
-        if (!user.nickname) {
-            $scope.errors.push({ message: "Nickname is required."});
-        }
 
-        if ($scope.errors.length > 0) {
-            return;
-        }
-
-        GameSvc.joinLeague($routeParams.id,function (err, response) {
+        GameSvc.joinLeague($routeParams.id, function (err, response) {
+            if (err) {
+                console.error(err);
+                return;
+            }
             if (response) {
                 if (response.status === 'success') {
                     window.location.href = "#/game/" + $routeParams.id;

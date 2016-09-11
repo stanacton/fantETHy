@@ -74,15 +74,6 @@ contract FantasyLeague  {
     struct Limits {
         uint maxTeams;
         uint minTeams;
-
-        uint maxForwards;
-        uint minForwards;
-        uint maxMidFielders;
-        uint minMidFielders;
-        uint maxDefenders;
-        uint minDefenders;
-        uint maxGoalKeepers;
-        uint minGoalKeepers;
     }
 
     enum LeagueStatus { WaitingForTeams, PickInProgress, SeasonInProgress, Finished, Error }
@@ -107,19 +98,13 @@ contract FantasyLeague  {
     // TODO: Add PayoutType variable.
     // TODO: Check UI table, one field is missing here.
 
-    function getStatus () returns (LeagueStatus) {
+    function getStatus () entitledUsersOnly returns (LeagueStatus) {
         return status;
     }
 
-    function FantasyLeague (string name, uint setBuyIn) {
+    function FantasyLeague (string name, uint setBuyIn) entitledUsersOnly {
         limits.maxTeams = 15;
         limits.minTeams = 2;
-        limits.maxForwards = 2;
-        limits.minForwards = 2;
-        limits.maxMidFielders = 4;
-        limits.minMidFielders = 4;
-        limits.maxDefenders = 4;
-        limits.minDefenders = 4;
 
         scoringPoints.ownGoals = -3;
         scoringPoints.appearances = 2;
@@ -143,21 +128,21 @@ contract FantasyLeague  {
         startingFunds = 5000;
     }
 
-    function joinLeague() returns (bool) {
+    function joinLeague() entitledUsersOnly returns (bool) {
         // Check if key is currently in use before allowing it to register. 
         if(teams[msg.sender].initialized == true) {
             return false;
         }
-        teams[msg.sender] = Team(msg.sender, -1, [TeamSlot(Player(-1))], false, startingFunds);
+        // teams[msg.sender] = Team(msg.sender, -1, [], false, startingFunds);
         return true;
     }
 
-    function startDraft() {
+    function startDraft() entitledUsersOnly {
         // Create draft order randomly.
         // 
     }
 
-    function onUpdate() {
+    function onUpdate() entitledUsersOnly {
         // iterate over data structure
         // for each event see if that event effects a team
         // if it does then update the team score

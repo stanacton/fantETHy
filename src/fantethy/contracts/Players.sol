@@ -4,6 +4,7 @@ contract Players  {
     PlayerPosition constant defaultChoice = PlayerPosition.Error;
     
     struct Player {
+        int id;
     	string FullName;
         PlayerPosition position;
     }

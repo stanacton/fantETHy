@@ -1,36 +1,89 @@
+contract EntitlementRegistry{function get(string _name)constant returns(address );function getOrThrow(string _name)constant returns(address );}
+contract Entitlement{function isEntitled(address _address)constant returns(bool );}
+
+
 contract FantasyLeague  {
 
-    uint currentTeamsCount;
-    uint buyIn;
+    // BlockOne ID bindings
+     // The address below is for the Edgware network only
+     EntitlementRegistry entitlementRegistry = EntitlementRegistry(0xe5483c010d0f50ac93a341ef5428244c84043b54);
+
+     function getEntitlement() constant returns(address) {
+         return entitlementRegistry.getOrThrow("com.addc.fantethy.dev");
+     }
+
+     modifier entitledUsersOnly {
+       if (!Entitlement(getEntitlement()).isEntitled(msg.sender)) throw;
+     }
+
+    struct Player {
+        uint playerID;
+        uint ownGoals;
+        uint appearances;
+        uint goals;
+        uint assists;
+        // uint saves;
+        uint cleanSheets;
+        uint goalsConceded;
+        uint redCard;
+        uint yellowCard;
+    }
+
+    // TODO: match keys
+    struct PointsByPlayerType {
+        int goalKeeper;
+        int defender;
+        int midFielder;
+        int forward;
+    }
+
+    struct ScoringPoints{
+        int ownGoals;
+        int appearances;
+        PointsByPlayerType goals;
+        int assists;
+        // uint saves;
+        int cleanSheets;
+        int goalsConceded;
+        int redCard;
+        int yellowCard;
+    }
+
+    struct TeamSlot{
+        // If we harcode position to each teamSlot index as commented below
+        // then we do not need to store position here.
+        // string position;
+        Player player;
+        uint priority;
+    }
     
     struct Team {
         address addr;
         // Add name
         int captain;
         // Team slot array (15)
+        // 1st position is goal keeper
+        // 2nd to 5th position are defenders
+        // 6th to 9th position are midFielders
+        // 10th to 11th position are attackers
+        TeamSlot[15] teamSlots;
         bool initialized;
+        int balance;
     }
 
     struct Limits {
         uint maxTeams;
         uint minTeams;
 
-        uint maxCentreForwards;
-        uint minCentreForwards;
-
+        uint maxForwards;
+        uint minForwards;
         uint maxMidFielders;
         uint minMidFielders;
-
         uint maxDefenders;
         uint minDefenders;
-
         uint maxGoalKeepers;
         uint minGoalKeepers;
     }
-
-    // TODO: Add PayoutType variable.
-
-    // TODO: Check UI table, one field is missing here.
 
     enum LeagueStatus { WaitingForTeams, PickInProgress, SeasonInProgress, Finished, Error }
     LeagueStatus status;
@@ -38,38 +91,77 @@ contract FantasyLeague  {
 
     mapping (address => Team) teams;
 
+    Limits limits;
+
+    ScoringPoints scoringPoints;
+    PointsByPlayerType goalStruct;
+
+    Player playerGlobal;
+    // TODO: some duplication can be removed by storing what block number a player
+    // joined a particular team and calculate stats rather than storing explicitly.
+    // e.g. global var stored for all players. Teams compute valuess
+
+    uint currentTeamsCount;
+    uint buyIn;
+    int startingFunds;
+    // TODO: Add PayoutType variable.
+    // TODO: Check UI table, one field is missing here.
 
     function getStatus () returns (LeagueStatus) {
-    	return status;
+        return status;
     }
-
-    Limits limits;
 
     function FantasyLeague (string name, uint setBuyIn) {
         limits.maxTeams = 15;
         limits.minTeams = 2;
-
-        limits.maxCentreForwards = 2;
-        limits.minCentreForwards = 2;
-
+        limits.maxForwards = 2;
+        limits.minForwards = 2;
         limits.maxMidFielders = 4;
         limits.minMidFielders = 4;
-
         limits.maxDefenders = 4;
         limits.minDefenders = 4;
+
+        scoringPoints.ownGoals = -3;
+        scoringPoints.appearances = 2;
+        // depends on the player type.
+        goalStruct.goalKeeper = 5000; // TODO: update value to something sensible!!!
+        goalStruct.defender = 5000; // TODO: update value to something sensible!!!
+        goalStruct.midFielder = 5000; // TODO: update value to something sensible!!!
+        goalStruct.forward = 5000; // TODO: update value to something sensible!!!
+        scoringPoints.goals = goalStruct;
+
+        scoringPoints.assists = 3;
+        // scoringPoints.saves = ;
+        // only get this for every goal keeper and defender
+        scoringPoints.cleanSheets = 5;
+        // only get this for every goal keeper and defender.
+        scoringPoints.goalsConceded = -1;
+        scoringPoints.redCard = -5;
+        scoringPoints.yellowCard = -1;
+
         buyIn = setBuyIn;
+        startingFunds = 5000;
     }
 
-    function joinLeague()  returns (bool) {
+    function joinLeague() returns (bool) {
         // Check if key is currently in use before allowing it to register. 
         if(teams[msg.sender].initialized == true) {
             return false;
         }
-        teams[msg.sender] = Team(msg.sender, -1, true);
+        teams[msg.sender] = Team(msg.sender, -1, [TeamSlot(Player(-1))], false, startingFunds);
         return true;
     }
 
-    function fetchTeamByID () {
+    function startDraft() {
+        // Create draft order randomly.
+        // 
+    }
 
+    function onUpdate() {
+        // iterate over data structure
+        // for each event see if that event effects a team
+        // if it does then update the team score
+        // regardless of above update global scores for player.
+        // setup the next schedule call to API (or refactor to lazy loading)
     }
 }

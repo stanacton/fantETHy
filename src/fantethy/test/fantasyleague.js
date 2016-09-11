@@ -19,7 +19,7 @@ contract('FantasyLeague', function(accounts) {
     var meta = FantasyLeague.deployed();
 
     return meta.joinLeague.call(accounts[1]).then(function(success) {
-      assert.equal(success.valueOf(), false, "player was allowed to join the game repeatedly.");
+      assert.equal(success.valueOf(), false, "player was allowed to join the game repeatedly. ");
     });
   });
 

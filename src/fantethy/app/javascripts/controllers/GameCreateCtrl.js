@@ -20,12 +20,23 @@ app.controller("GameCreateCtrl", ["$scope","GameSvc", function ($scope, GameSvc)
             return;
         }
 
-        var response = GameSvc.createGame(game);
-        if (response.status === "success") {
-            $scope.success = true;
-            $scope.address = response.address;
-        } else {
-            console.log("The error was: ", response);
-        }
+        GameSvc.createGame(game, function (err, response) {
+            console.log(err, response);
+            if (err) {
+                $scope.errors.push(err);
+            }
+
+            if (response) {
+                if (response.status === "success") {
+                    console.log("SUCCESS", err, response);
+
+                    $scope.success = true;
+                    $scope.address = response.address;
+                    $scope.$apply();
+                } else {
+                    $scope.errors.push(response.error);
+                }
+            }
+        });
     };
 }]);

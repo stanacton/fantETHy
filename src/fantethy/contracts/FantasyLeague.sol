@@ -50,9 +50,7 @@ contract FantasyLeague  {
     }
 
     struct TeamSlot{
-        // If we harcode position to each teamSlot index as commented below
-        // then we do not need to store position here.
-        // string position;
+        // we do not need to store position here.
         Player player;
         uint priority;
     }
@@ -109,10 +107,10 @@ contract FantasyLeague  {
         scoringPoints.ownGoals = -3;
         scoringPoints.appearances = 2;
         // depends on the player type.
-        goalStruct.goalKeeper = 5000; // TODO: update value to something sensible!!!
-        goalStruct.defender = 5000; // TODO: update value to something sensible!!!
-        goalStruct.midFielder = 5000; // TODO: update value to something sensible!!!
-        goalStruct.forward = 5000; // TODO: update value to something sensible!!!
+        goalStruct.goalKeeper = 7; // TODO: update value to something sensible!!!
+        goalStruct.defender = 7; // TODO: update value to something sensible!!!
+        goalStruct.midFielder = 6; // TODO: update value to something sensible!!!
+        goalStruct.forward = 5; // TODO: update value to something sensible!!!
         scoringPoints.goals = goalStruct;
 
         scoringPoints.assists = 3;

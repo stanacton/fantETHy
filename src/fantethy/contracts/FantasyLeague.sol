@@ -1,7 +1,7 @@
 contract EntitlementRegistry{function get(string _name)constant returns(address );function getOrThrow(string _name)constant returns(address );}
 contract Entitlement{function isEntitled(address _address)constant returns(bool );}
 
-import "Oraclize";
+// import "./Oraclize.sol";
 
 contract FantasyLeague  {
 

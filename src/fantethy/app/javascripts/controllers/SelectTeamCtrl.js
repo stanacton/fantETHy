@@ -37,7 +37,7 @@ app.controller("SelectTeamCtrl", ["$scope", "$routeParams","PlayersSvc", functio
     };
 
     $scope.addDefender = function (player) {
-        if ($scope.team.midfield.length < $scope.max.maxDefender) {
+        if ($scope.team.defender.length < $scope.max.maxDefender) {
             addUser($scope.team.defender, player);
         }
     };
@@ -78,6 +78,42 @@ app.controller("SelectTeamCtrl", ["$scope", "$routeParams","PlayersSvc", functio
         var index = $scope.team[aryName].indexOf(player);
         if (index < $scope.team[aryName].length) {
             $scope.team[aryName].splice(index, 1);
+        }
+    };
+
+    $scope.save = function () {
+        $scope.errors = [];
+
+        if ($scope.team.goalkeeper.length !== $scope.max.maxGoalkeeper) {
+            $scope.errors.push({ message: "You require " + $scope.max.maxGoalkeeper + " goal keepers."});
+        }
+
+        if ($scope.team.forwards.length !== $scope.max.maxForwards) {
+            $scope.errors.push({ message: "You require " + $scope.max.maxForwards + " forwards."});
+        }
+
+        if ($scope.team.midfield.length !== $scope.max.maxMidField) {
+            $scope.errors.push({ message: "You require " + $scope.max.maxMidField + " midfielders."});
+        }
+
+        if ($scope.team.defender.length !== $scope.max.maxDefender) {
+            $scope.errors.push({ message: "You require " + $scope.max.maxDefender + " defenders."});
+        }
+
+        if ($scope.errors.length > 0) {
+            return;
+        }
+
+        var leagueAddress = $routeParams.id;
+
+        var team = $scope.team;
+        team.leagueAddress = leagueAddress;
+        var response = PlayersSvc.savePlayers(team);
+
+        if (response.status === 'success') {
+            window.location.href = "#/game/" + leagueAddress;
+        } else {
+            $scope.errors.push({ message: "There was an error. " + response.error.message });
         }
     };
 

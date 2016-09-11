@@ -1,8 +1,19 @@
 <div id="page-select-team">
+    <h2>Team Selection</h2>
+    <div class="alert alert-danger" ng-show="errors.length > 0">
+        <strong>Oops!!</strong>
+        <div ng-repeat="error in errors">{{ error.message }}</div>
+    </div>
+    <p>
+        Select your team below.  You must select a full allocation for each position.
 
-    <div class="panel panel-default">
+    </p>
+    <p>
+        <button class="btn btn-primary btn-lg" ng-click="save()">Save Team</button>
+    </p>
+    <div ng-class="['panel', {'panel-default': team.forwards.length !== max.maxForwards,'panel-success': team.forwards.length === max.maxForwards, }]">
         <div class="panel-heading">
-            <h3 class="heading">Forwards</h3>
+            <h3 class="heading">Forwards  <span class="glyphicon glyphicon-ok" ng-show="team.forwards.length === max.maxForwards"></span></h3>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -59,9 +70,9 @@
             </div>
         </div>
     </div>
-   <div class="panel panel-default">
+   <div ng-class="['panel', {'panel-default': team.midfield.length !== max.maxMidField,'panel-success': team.midfield.length === max.maxMidField, }]">
         <div class="panel-heading">
-            <h3 class="heading">Midfield</h3>
+            <h3 class="heading">Midfield  <span class="glyphicon glyphicon-ok" ng-show="team.midfield.length === max.maxMidField"></span></h3>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -118,9 +129,9 @@
             </div>
         </div>
     </div>
-   <div class="panel panel-default">
+   <div ng-class="['panel', {'panel-default': team.defender.length !== max.maxDefender,'panel-success': team.defender.length === max.maxDefender, }]">
         <div class="panel-heading">
-            <h3 class="heading">Defenders</h3>
+            <h3 class="heading">Defenders  <span class="glyphicon glyphicon-ok" ng-show="team.defender.length === max.maxDefender"></span></h3>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -177,9 +188,9 @@
             </div>
         </div>
     </div>
-   <div class="panel panel-default">
+   <div ng-class="['panel', {'panel-default': team.goalkeeper.length !== max.maxGoalkeeper,'panel-success': team.goalkeeper.length === max.maxGoalkeeper, }]">
         <div class="panel-heading">
-            <h3 class="heading">Goal Keepers </h3>
+            <h3 class="heading">Goal Keepers <span class="glyphicon glyphicon-ok" ng-show="team.goalkeeper.length === max.maxGoalkeeper"></span></h3>
         </div>
         <div class="panel-body">
             <div class="row">

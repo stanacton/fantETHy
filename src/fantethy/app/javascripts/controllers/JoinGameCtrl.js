@@ -2,6 +2,9 @@ app.controller("JoinGameCtrl", ["$scope", "GameSvc","$routeParams", function ($s
     $scope.game = GameSvc.getGame($routeParams.id);
 
     $scope.joinGame = function (user) {
+
+        console.log("TRYING TYRIG");
+
         if (!user.nickname) {
             $scope.errors.push({ message: "Nickname is required."});
         }
@@ -10,11 +13,14 @@ app.controller("JoinGameCtrl", ["$scope", "GameSvc","$routeParams", function ($s
             return;
         }
 
-        var response = GameSvc.joinGame($routeParams.id, user);
-        if (response.status === 'success') {
-            window.location.href = "#/game/" + $routeParams.id;
-        } else {
-            $scope.errors.push({ message: "There was an error joining the game."});
-        }
+        GameSvc.joinLeague($routeParams.id,function (err, response) {
+            if (response) {
+                if (response.status === 'success') {
+                    window.location.href = "#/game/" + $routeParams.id;
+                } else {
+                    $scope.errors.push({ message: "There was an error joining the game."});
+                }
+            }
+        });
     };
 }]);

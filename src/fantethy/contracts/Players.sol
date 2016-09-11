@@ -25,7 +25,12 @@ contract Players  {
     }
 
     function stringsEqual(string x, string y) returns (bool) {
-        return sha3(x) == sha3(y) ? true : false;
+        if(sha3(x) == sha3(y)){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     function addPlayer(int uid, string fullName, string position) returns (bool) {
